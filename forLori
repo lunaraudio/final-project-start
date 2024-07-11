@@ -1,0 +1,75 @@
+import tkinter as tk
+
+class Entrees:
+    def __init__(self):
+        self.recipes = {
+            "Fiesta Lime Chicken": "Grilled chicken breast topped with fiesta lime sauce, Mexi-ranch, Jack and cheddar cheeses, freshly made pico de gallo and crispy tortilla strips. Served with Spanish rice and house-made pico de gallo.",
+            "Ribeye Steak": "Seasoned with our special blend of spices and topped with sautéed mushrooms, grilled onions and a creamy red wine sauce.",
+            "Bourbon Street Chicken & Shrimp": "Juicy grilled chicken breast with shrimp tossed in a Cajun butter sauce.",
+            # Add more recipes as needed
+        }
+
+class Drinks:
+    def __init__(self):
+        self.recipes = {
+            "Bahama Mama": "A tropical cocktail with Malibu Coconut Rum, tropical juices and a splash of grenadine.",
+            "Mango Lemonade": "Fresh mango blended with lemonade and served over ice.",
+            "Long Island Iced Tea": "A potent combination of vodka, rum, gin, tequila, triple sec, sweet & sour and a splash of cola.",
+            # Add more drinks as needed
+        }
+
+class Desserts:
+    def __init__(self):
+        self.recipes = {
+            "Triple Chocolate Meltdown": "A warm, rich fudge-filled chocolate cake topped with hot fudge.",
+            "Blue Ribbon Brownie": "A huge brownie served warm with vanilla ice cream, drizzled with hot fudge and caramel sauce.",
+            "Maple Butter Blondie": "A warm blondie made with maple flavors and topped with vanilla ice cream, maple butter sauce and candied pecans.",
+            # Add more desserts as needed
+        }
+
+class RecipeApp:
+    def __init__(self, root):
+        self.root = root
+        self.root.title("Applebee's Recipes")
+        
+        # Create Entrees, Drinks, and Desserts instances
+        self.entrees = Entrees()
+        self.drinks = Drinks()
+        self.desserts = Desserts()
+        
+        # Create GUI elements
+        self.label = tk.Label(root, text="Select a category to view recipes:")
+        self.label.pack(pady=10)
+        
+        self.category_var = tk.StringVar()
+        self.category_var.set("Entrees")  # Default category
+        
+        self.category_menu = tk.OptionMenu(root, self.category_var, "Entrees", "Drinks", "Desserts", command=self.display_recipes)
+        self.category_menu.pack(pady=10)
+        
+        self.recipe_text = tk.Text(root, height=10, width=60, wrap=tk.WORD)
+        self.recipe_text.pack(pady=10)
+        
+        self.display_recipes("Entrees")  # Display default category recipes
+        
+    def display_recipes(self, category):
+        self.recipe_text.delete('1.0', tk.END)  # Clear previous recipes
+        
+        if category == "Entrees":
+            recipes_dict = self.entrees.recipes
+        elif category == "Drinks":
+            recipes_dict = self.drinks.recipes
+        elif category == "Desserts":
+            recipes_dict = self.desserts.recipes
+        else:
+            return
+        
+        for recipe_name, recipe_description in recipes_dict.items():
+            self.recipe_text.insert(tk.END, f"{recipe_name}:\n")
+            self.recipe_text.insert(tk.END, f"{recipe_description}\n\n")
+
+# Main tkinter loop
+if __name__ == "__main__":
+    root = tk.Tk()
+    app = RecipeApp(root)
+    root.mainloop()
